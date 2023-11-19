@@ -1,0 +1,32 @@
+
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <div class="container-fluid container">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Dating App</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="accountService.currentUser$|async">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="members" routerLinkActive="active">Matches</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="lists" routerLinkActive="active">List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="messages" routerLinkActive="active">Messages</a>
+          </li>
+         
+        </ul>
+
+        <div class="nav-item dropdown text-white" dropdown *ngIf="(accountService.currentUser$|async) as user">
+          <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+          <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.userName | titlecase}}</a>
+            <ul class="dropdown-menu" *dropdownMenu>
+              <li><a routerLink="/member/edit" class="dropdown-item">Edit Profile</a></li>
+              <a class="dropdown-item" (click)="logout()">Logout</a>
+            </ul>
+        </div>
+        <form *ngIf="!(accountService.currentUser$|async)" class="d-flex" #loginForm="ngForm" (ngSubmit)="login()">
+          <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
+          <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">
+          <button class="btn btn-success" type="submit">Login</button>
+        </form>
+      </div>
+  </nav>
